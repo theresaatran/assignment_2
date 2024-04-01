@@ -18,6 +18,21 @@
             <input type="number" id="quantity" placeholder="Quantity" required>
             <button type="submit">Add Medicine</button>
         </form>
+        <div id="error-message"></div>
+        <table id="medicine-table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Product ID</th>
+                    <th>Manufacturer</th>
+                    <th>Expiration Date</th>
+                    <th>Quantity</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="medicine-list"></tbody>
+        </table>
+    </div>
 
 	<script src="../js/app.js"></script>
 </body>
