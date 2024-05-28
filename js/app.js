@@ -26,12 +26,18 @@ class PharmacyInventory {
     saveData() {
         localStorage.setItem('medicines', JSON.stringify(this.medicines));
     }
+
+    generateCASId() {
+        const segment1 = Math.floor(10000 + Math.random() * 90000);
+        const segment2 = Math.floor(10 + Math.random() * 90);
+        const segment3 = Math.floor(1 + Math.random() * 9);
+        return `${segment1}-${segment2}-${segment3}`;
+    }
 }
 
 class UI {
     static displayMedicines() {
         const medicines = new PharmacyInventory().medicines;
-
         medicines.forEach(medicine => UI.addMedicineToList(medicine));
     }
 
@@ -80,24 +86,17 @@ document.querySelector('#medicine-form').addEventListener('submit', (e) => {
     e.preventDefault();
 
     const name = document.querySelector('#product-name').value;
-    const id = document.querySelector('#product-id').value;
     const manufacturer = document.querySelector('#manufacturer').value;
     const expirationDate = document.querySelector('#expiration-date').value;
     const quantity = document.querySelector('#quantity').value;
 
-    if (!name || !id || !manufacturer || !expirationDate || !quantity) {
+    if (!name || !manufacturer || !expirationDate || !quantity) {
         UI.showAlert('Please fill in all fields', 'error');
         return;
     }
 
-    const medicines = new PharmacyInventory().medicines;
-
-    if (medicines.find(medicine => medicine.id === id)) {
-        UI.showAlert('Product ID already exists', 'error');
-        return;
-    }
-
-    const medicine = new Medicine(name, id, manufacturer, expirationDate, quantity);
+    const casId = new PharmacyInventory().generateCASId();
+    const medicine = new Medicine(name, casId, manufacturer, expirationDate, quantity);
 
     UI.addMedicineToList(medicine);
     new PharmacyInventory().addMedicine(medicine);
